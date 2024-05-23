@@ -3,18 +3,20 @@ let buttonOn, buttonOff;
 
 function setup() {
   noCanvas();
-  
+
   // Configura il client MQTT
-  client = new Paho.MQTT.Client("192.168.1.21", Number(8080), "p5Client");
-  
+  client = new Paho.MQTT.Client("192.168.1.21", Number(9001), "p5Client"); // Usa l'IP del tuo broker MQTT locale e la porta WebSocket (ad esempio 9001)
+
   // Imposta le callback
   client.onConnectionLost = onConnectionLost;
   client.onMessageArrived = onMessageArrived;
-  
+
   // Opzioni di connessione
   let options = {
     onSuccess: onConnect,
     onFailure: onFailure,
+    useSSL: false,
+    timeout: 3,
   };
 
   // Connetti al broker MQTT
