@@ -5,7 +5,7 @@ function setup() {
   noCanvas();
 
   // Configura il client MQTT
-  client = new Paho.MQTT.Client("192.168.1.21", Number(9001), "p5Client"); // Usa l'IP del tuo broker MQTT locale e la porta WebSocket (ad esempio 9001)
+  client = new Paho.MQTT.Client("wss://192.168.1.100:9001", "p5Client"); // Usa l'IP del tuo broker MQTT locale e la porta WebSocket (ad esempio 9001)
 
   // Imposta le callback
   client.onConnectionLost = onConnectionLost;
