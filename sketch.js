@@ -5,7 +5,7 @@ function setup() {
   noCanvas();
   
   // Configura il client MQTT
-  client = new Paho.MQTT.Client("test.mosquitto.org", Number(8080), "p5Client");
+  client = new Paho.MQTT.Client("broker.hivemq.com", Number(8080), "p5Client");
   
   // Imposta le callback
   client.onConnectionLost = onConnectionLost;
