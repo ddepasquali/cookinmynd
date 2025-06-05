@@ -53,7 +53,7 @@ This project was developed as part of an academic research and design process fo
 
 ## Author
 
-Domenico De Pasquali 
+Domenico De Pasquali <br>
 MSc student in *Interaction & Experience Design*  
 BSc in *Information and Communications Technologies*
 
