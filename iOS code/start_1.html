@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cookinmynd</title>
+    <meta author="Domenico De Pasquali">
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <script src="p5.min.js"></script>
+    <script src="mqttws31.min.js"></script>
+    
+    
+    <!-- Funzione per realizzare una pagina HTML dinamica da usare-->
+    <script>
+      function show(shown, hidden1, hidden2, hidden3, hidden4, hidden5, hidden6, hidden7, hidden8, hidden9, hidden10, hidden11, hidden12, hidden13, hidden14, hidden15, hidden16, hidden17, hidden18, hidden20, hidden21, hidden22) 
+      {
+        // Mostro il div specificato
+        document.getElementById(shown).style.display = 'block'; 
+
+        // Nascondo tutti gli altri div
+        if (hidden1) 
+        {
+          document.getElementById(hidden1).style.display = 'none';
+        }
+
+        if (hidden2) 
+        {
+          document.getElementById(hidden2).style.display = 'none';
+        }
+
+        if (hidden3) 
+        {
+          document.getElementById(hidden3).style.display = 'none';
+        }
+
+        if (hidden4) 
+        {
+          document.getElementById(hidden4).style.display = 'none';
+        }
+
+        if (hidden5) 
+        {
+          document.getElementById(hidden5).style.display = 'none';
+        }
+
+        if (hidden6) 
+        {
+          document.getElementById(hidden6).style.display = 'none';
+        }
+
+        if (hidden7) 
+        {
+          document.getElementById(hidden7).style.display = 'none';
+        }
+
+        if (hidden8) 
+        {
+          document.getElementById(hidden8).style.display = 'none';
+        }
+
+        if (hidden9) 
+        {
+          document.getElementById(hidden9).style.display = 'none';
+        }
+
+        if (hidden10) 
+        {
+          document.getElementById(hidden10).style.display = 'none';
+        }
+
+        if (hidden11) 
+        {
+          document.getElementById(hidden11).style.display = 'none';
+        }
+
+        if (hidden12) 
+        {
+          document.getElementById(hidden12).style.display = 'none';
+        }
+
+        if (hidden13) 
+        {
+          document.getElementById(hidden13).style.display = 'none';
+        }
+
+        if (hidden14) 
+        {
+          document.getElementById(hidden14).style.display = 'none';
+        }
+
+        if (hidden15) 
+        {
+          document.getElementById(hidden15).style.display = 'none';
+        }
+
+        if (hidden16) 
+        {
+          document.getElementById(hidden16).style.display = 'none';
+        }
+
+        if (hidden17) 
+        {
+          document.getElementById(hidden17).style.display = 'none';
+        }
+
+        if (hidden18) 
+        {
+          document.getElementById(hidden18).style.display = 'none';
+        }
+
+        if (hidden19) 
+        {
+          document.getElementById(hidden19).style.display = 'none';
+        }
+
+        if (hidden20) 
+        {
+          document.getElementById(hidden20).style.display = 'none';
+        }
+
+        if (hidden21) 
+        {
+          document.getElementById(hidden21).style.display = 'none';
+        }
+
+        if (hidden22) 
+        {
+          document.getElementById(hidden22).style.display = 'none';
+        }
+
+        if (shown === 'accedi_registrati') 
+        {
+          // Resetto i form
+          document.getElementById('form_accedi').reset();
+          document.getElementById('form_registrati').reset();
+        }
+
+        // Recupero i valori dal form di configurazione del care giver
+        if (shown === 'configurazione_cg') 
+        {
+          document.getElementById('form_configurazione_cg-name').value = localStorage.getItem('registrazione_name') || '';
+          document.getElementById('form_configurazione_cg-cognome').value = localStorage.getItem('registrazione_cognome') || '';
+          document.getElementById('form_configurazione_cg-tel').value = localStorage.getItem('registrazione_tel') || '';
+        }
+        return false;
+      }
+    </script>
+  </head>
+
+  <!-- Inserisco tutte le parti della Web App -->
+  <body id="p5-container">
+
+    <!-- Splash Screen -->
+    <div id="logo" style="display:block" class="clickable-background" onclick="return show('accedi_registrati','logo','accedi', 'registrati', 'configurazione_inizio','configurazione_cg','configurazione_cr', 'configurazione_time', 'configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');">
+    </div>
+
+    <!-- Accedi e/o Registrati -->
+    <div id="accedi_registrati" style="display:none">
+      <button id="accedi_registrati-accedi" onclick="return show('accedi','accedi_registrati','logo','registrati', 'configurazione_inizio', 'configurazione_cg', 'configurazione_cr','configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="accedi_registrati-registrati" onclick="return show('registrati','accedi_registrati','logo','accedi', 'configurazione_inizio', 'configurazione_cg', 'configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Accedi -->
+    <div id="accedi" style="display:none">
+      <button id="accedi-back" onclick="return show('accedi_registrati','accedi','logo', 'registrati','configurazione_inizio','configurazione_cg','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_accedi">
+        <input type="text" placeholder="Username o Email" name="uname" required id="form_accedi-username">
+        <br>
+        <input type="password" placeholder="Password" name="psw" required id="form_accedi-pwd">
+        <button id="accedi-accedi" type="button" onclick="verificaForm()"></button>
+    </form>
+
+    <!-- Funzione per verificare il form --> 
+    <script>
+      function verificaForm() 
+      {
+        var username = document.getElementById("form_accedi-username").value;
+        var password = document.getElementById("form_accedi-pwd").value;
+
+        // Validazione dei campi
+        if (username === "" || password === "") 
+        {
+          alert("Per favore, compila tutti i campi");
+        } 
+        else 
+        {
+          alert("La funzionalità di login è stata disabilitata. Riprova più tardi");
+        }
+      }
+    </script>
+    </div>
+
+    <!-- Registrati -->
+    <div id="registrati" style="display:none">
+      <button id="registrati-back" onclick="return show('accedi_registrati','registrati','logo', 'accedi', 'configurazione_inizio', 'configurazione_cg','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_registrati">
+        <input type="text" placeholder="Nome" name="name" required id="form_registrati-name">
+        <br>
+        <input type="text" placeholder="Cognome" name="cognome" required id="form_registrati-cognome">
+        <br>
+        <input type="email" placeholder="Email" name="email" required id="form_registrati-email">
+        <br>
+        <input type="tel" placeholder="Cellulare" name="tel" required id="form_registrati-tel">
+        <br>
+        <input type="password" placeholder="Password" name="pwd" required id="form_registrati-pwd">
+        <br>
+        <input type="password" placeholder="Ripeti Password" name="psw2" required id="form_registrati-pwd2">
+        <button id="registrati-registrati" type="button"></button>
+      </form>
+      
+      <!-- Funzione per gestire la registrazione -->
+      <script>
+        function eseguiRegistrazione() 
+        {
+          // Ottieni i valori inseriti dall'utente
+          var name = document.getElementById('form_registrati-name').value;
+          var cognome = document.getElementById('form_registrati-cognome').value;
+          var email = document.getElementById('form_registrati-email').value;
+          var tel = document.getElementById('form_registrati-tel').value;
+          var password = document.getElementById('form_registrati-pwd').value;
+          var password2 = document.getElementById('form_registrati-pwd2').value;
+          
+          /// Validazione dei campi
+          if (name === '' || cognome === '' || email === '' || tel === '' || password === '' || password2 === '') 
+          {
+            alert('Compila tutti i campi richiesti');
+            return; // Esce dalla funzione se i campi non sono compilati
+          }
+      
+          // Salvo i dati inseriti dall'utente
+          localStorage.setItem('registrazione_name', name);
+          localStorage.setItem('registrazione_cognome', cognome);
+          localStorage.setItem('registrazione_email', email);
+          localStorage.setItem('registrazione_tel', tel);
+          localStorage.setItem('registrazione_pwd', password);
+
+          show('configurazione_inizio', 'registrati', 'accedi', 'accedi_registrati', 'home', 'logo', 'configurazione_cg', 'configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');
+        }
+      
+      // Aggiungo un gestore di eventi al pulsante di registrati-registrati
+      document.getElementById('registrati-registrati').addEventListener('click', function(event) 
+      {
+        event.preventDefault(); // Impedisce la sottomissione automatica del form
+        eseguiRegistrazione(); // Chiama la funzione per eseguire il login
+      });
+      </script>
+    </div>
+
+    <!-- Inizio della configurazione -->
+    <div id="configurazione_inizio" style="display:none">
+      <button id="configurazione_inizio-back" onclick="return show('registrati','configurazione_inizio','accedi','accedi_registrati','logo', 'configurazione_cg','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="configurazione_inizio-inizia" onclick="return show('configurazione_cg','configurazione_inizio','registrati','accedi_registrati','logo','accedi','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Configurazione del profilo del care giver -->
+    <div id="configurazione_cg" style="display:none">
+      <button id="configurazione_cg-back" onclick="return show('configurazione_inizio','configurazione_cg','registrati','accedi','accedi_registrati','logo','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_configurazione_cg">
+        <input type="text" placeholder="Nome" name="name" required id="form_configurazione_cg-name">
+        <br>
+        <input type="text" placeholder="Cognome" name="cognome" required id="form_configurazione_cg-cognome">
+        <br>
+        <input type="tel" placeholder="Cellulare" name="tel" required id="form_configurazione_cg-tel">
+        <button id="configurazione_cg-avanti" type="button"></button>
+      </form>
+      
+      <!-- // Funzione per eseguire la configurazione -->
+      <script>
+        function eseguiConfigurazione_cg() 
+        {
+          // Estraggo i valori inseriti dall'utente
+          var name = document.getElementById('form_configurazione_cg-name').value;
+          var cognome = document.getElementById('form_configurazione_cg-cognome').value;
+          var tel = document.getElementById('form_configurazione_cg-tel').value;
+          
+          // Validazione dei campi
+          if (name === '' || cognome === '' || tel === '') 
+          {
+            alert('Compilare tutti i campi richiesti');
+            return; // Esce dalla funzione se i campi non sono compilati
+          }
+
+          // Salvo i dati inseriti dall'utente
+          localStorage.setItem('registrazione_name', name);
+          localStorage.setItem('registrazione_cognome', cognome);
+          localStorage.setItem('registrazione_tel', tel);
+
+          show('configurazione_cr','configurazione_cg','configurazione_inizio','registrati','accedi_registrati','logo','accedi', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');
+        }
+      
+        // Aggiungo un gestore di eventi al pulsante di configurazione_cg-avanti
+        document.getElementById('configurazione_cg-avanti').addEventListener('click', function(event) 
+        {
+          event.preventDefault(); // Impedisce la sottomissione automatica del form
+          eseguiConfigurazione_cg(); // Chiama la funzione per eseguire l'avanti
+        });
+      </script>
+    </div>
+
+    <!-- Configurazione del profilo del care recipient -->
+    <div id="configurazione_cr" style="display:none">
+      <button id="configurazione_cr-back" onclick="return show('configurazione_cg', 'configurazione_cr','configurazione_inzio','registrati','accedi','accedi_registrati','logo', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_configurazione_cr">
+        <input type="text" placeholder="Nome" name="name" required id="form_configurazione_cr-name">
+        <br>
+        <input type="text" placeholder="Cognome" name="cognome" required id="form_configurazione_cr-cognome">
+        <br>
+        <input type="tel" placeholder="Cellulare" name="tel" required id="form_configurazione_cr-tel">
+        <button id="configurazione_cr-avanti" type="button"></button>
+      </form>
+      
+      <!-- Funzione per eseguire la configurazione -->
+      <script>
+        function eseguiConfigurazione_cr() 
+        {
+          // Estraggo i valori inseriti dall'utente
+          var name = document.getElementById('form_configurazione_cr-name').value;
+          var cognome = document.getElementById('form_configurazione_cr-cognome').value;
+          var tel = document.getElementById('form_configurazione_cr-tel').value;
+          
+          // Popolo il paragrafo dinamicamente
+          document.getElementById('nome_cr').innerText = name;
+          document.getElementById('nome_cr_pranzo_ok').innerText = name + " ha pranzato!";
+          document.getElementById('cognome_cr').innerText = cognome;
+
+          // Imposta il link "tel:" per il numero di cellulare
+          var cellulareLink = document.getElementById('cellulare_cr_link');
+          cellulareLink.innerText = tel;
+          cellulareLink.href = 'tel:' + tel;
+
+          // Validazione dei campi
+          if (name === '' || cognome === '' || tel === '') 
+          {
+            alert('Compilare tutti i campi richiesti');
+            return; // Esce dalla funzione se i campi non sono compilati
+          }
+
+          // Memorizza i valori nel local storage
+          localStorage.setItem('registrazione_name_cr', name);
+          localStorage.setItem('registrazione_cognome_cr', cognome);
+          localStorage.setItem('registrazione_tel_cr', tel);
+
+          show('configurazione_time','configurazione_cr','configurazione_cg','configurazione_inizio','registrati','accedi_registrati','logo','accedi','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');
+        }
+      
+        // Aggiungo un gestore di eventi al pulsante di configurazione_cr-avanti
+        document.getElementById('configurazione_cr-avanti').addEventListener('click', function(event) 
+        {
+          event.preventDefault(); // Impedisce la sottomissione automatica del form
+          eseguiConfigurazione_cr(); // Chiama la funzione per eseguire l'avanti
+        });
+      </script>
+    </div>
+
+    <!-- Configurazione dell'orario dei pasti -->
+    <div id="configurazione_time" style="display:none">
+      <button id="configurazione_time-back" onclick="return show('configurazione_cr', 'configurazione_time', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_configurazione_time">
+        <input type="time" value="12:00" min="10:00" max="15:00" name="time_pranzo" required id="form_configurazione_time-pranzo">
+        <br>
+        <input type="time" value="19:00" min="17:00" max="22:00" name="time_cena" required id="form_configurazione_time-cena">
+        <button id="configurazione_time-avanti" type="button"></button>
+      </form>
+      
+      <!-- Funzione per eseguire la configurazione dell'orario -->
+      <script>
+        function eseguiConfigurazione_time() 
+        {
+          // Estraggo i valori inseriti dall'utente
+          var time_pranzo = document.getElementById('form_configurazione_time-pranzo').value;
+          var time_cena = document.getElementById('form_configurazione_time-cena').value;
+          
+          // Validazione dei campi
+          if ((time_pranzo < '10:00' || time_pranzo > '15:00') || (time_cena < '17:00' || time_cena > '22:00')) 
+          {
+            alert('Gli orari devono essere compresi tra le 10:00 e le 15:00 per il pranzo e tra le 17:00 e le 22:00 per la cena');
+            return; // Esce dalla funzione se gli orari non sono validi
+          }
+
+          // Salvo i dati dell'utente
+          localStorage.setItem('configurazione_time_pranzo', time_pranzo);
+          localStorage.setItem('registrazione_time_cena', time_cena);
+
+          show('configurazione_colori','configurazione_time','configurazione_cr','configurazione_cg','configurazione_inizio','registrati','accedi_registrati','logo','accedi','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');
+        }
+      
+        // Aggiungo un gestore di eventi al pulsante di configurazione_time-avanti
+        document.getElementById('configurazione_time-avanti').addEventListener('click', function(event) 
+        {
+          event.preventDefault(); // Impedisce la sottomissione automatica del form
+          eseguiConfigurazione_time(); // Chiama la funzione per eseguire l'avanti
+        });
+      </script>
+    </div>
+
+    <!-- Configurazione del colore dei pasti -->
+    <div id="configurazione_colori" style="display:none">
+      <button id="configurazione_colori-back" onclick="return show('configurazione_time', 'configurazione_colori', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="configurazione_colori-avanti" onclick="return show('configurazione_completata','configurazione_time', 'configurazione_colori', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+
+
+      <div id="p5-buttons2"></div> <!-- Contenitore per i pulsanti p5.js - Anteprima (debug) -->
+      <div id="p5-buttons4"></div> <!-- Contenitore per i pulsanti p5.js - Colore 1 -->
+      <div id="p5-buttons5"></div> <!-- Contenitore per i pulsanti p5.js - Colore 2-->
+      <div id="p5-buttons6"></div> <!-- Contenitore per i pulsanti p5.js - Colore 3 -->
+      <div id="p5-buttons7"></div> <!-- Contenitore per i pulsanti p5.js - Colore 4 -->
+      <div id="p5-buttons8"></div> <!-- Contenitore per i pulsanti p5.js - Colore 5 -->
+      <div id="p5-buttons9"></div> <!-- Contenitore per i pulsanti p5.js - Colore 6 -->
+
+      <!-- Funzione per eseguire il login -->
+      <script>
+        function eseguiConfigurazione_colori() 
+        {
+          // Estraggo i valori inseriti dall'utente
+          var colori_pranzo = document.getElementById('form_configurazione_colori-pranzo').value;
+          var colori_cena = document.getElementById('form_configurazione_colori-cena').value;
+          
+          // Validazione dei campi
+          if (colori_pranzo === colori_cena) 
+          {
+          alert('I colori per il pranzo e la cena devono essere distinti');
+          return; // Esce dalla funzione se gli orari non sono validi
+          }
+
+          // Salvo i dati dell'utente
+          localStorage.setItem('configurazione_colori_pranzo', colori_pranzo);
+          localStorage.setItem('registrazione_time_cena', colori_cena);
+
+          show('configurazione_completata','configurazione_colori','configurazione_time','configurazione_cr','configurazione_cg','configurazione_inizio','registrati','accedi_registrati','logo','accedi','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');
+        }
+      
+        // Aggiungo un gestore di eventi al pulsante di configurazione_time-avanti
+        document.getElementById('configurazione_colori-avanti').addEventListener('click', function(event) 
+        {
+          event.preventDefault(); // Impedisce la sottomissione automatica del form
+          eseguiConfigurazione_colori(); // Chiama la funzione per eseguire l'avanti
+        });
+      </script>
+    </div>
+
+    <!-- Configurazione completata -->
+    <div id="configurazione_completata" style="display:none">
+      <button id="configurazione_completata-back" onclick="return show('configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="configurazione_completata-avanti" onclick="return show('home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare) -->
+    <div id="home_ok" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <button id="home_ok-monossido" onclick="return show('home_ok_monossido','home_ok','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-cr" onclick="return show('home_ok_cr','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-pranzo" onclick="return show('home_ok_pranzo','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-cena" onclick="return show('home_ok_cena','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-statistiche" onclick="return show('home_ok_statistiche','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-manage" onclick="return show('home_ok_manage','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-spesa" onclick="return show('home_ok_spesa','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-ricette" onclick="return show('home_ok_ricette','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-user" onclick="return show('home_ok_user','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-setting" onclick="return show('home_ok_setting','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - monossido) -->
+    <div id="home_ok_monossido" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <button id="home_ok_monossido-back" onclick="return show('home_ok','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - care recipient) -->
+    <div id="home_ok_cr" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <p id="nome_cr"></p>
+      <p id="cognome_cr"></p>
+      <p id="cellulare_cr"> <a href="#" id="cellulare_cr_link"></a> </p>
+      <button id="home_ok_cr-back" onclick="return show('home_ok','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - pranzo) -->
+    <div id="home_ok_pranzo" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <p id="nome_cr_pranzo_ok"></p>
+      <button id="home_ok_pranzo-back" onclick="return show('home_ok','home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - cena) -->
+    <div id="home_ok_cena" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <button id="home_ok_cena-back" onclick="return show('home_ok','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - statistiche) -->
+    <div id="home_ok_statistiche" style="display:none">
+      <button id="home_ok_statistiche-back" onclick="return show('home_ok','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - manage) -->
+    <div id="home_ok_manage" style="display:none">
+      <button id="home_ok_manage-back" onclick="return show('home_ok','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - spesa) -->
+    <div id="home_ok_spesa" style="display:none">
+      <div>
+        <input type="text" id="nuovo-alimento" placeholder="Inserisci un alimento">
+        <button id="btn-addAlim" onclick="aggiungiAlimento()">+</button>
+      </div>
+  
+      <!-- Gli elementi della lista vengono aggiunti qui dinamicamente -->
+      <ul class="lista-spesa" id="lista-spesa">
+      </ul>
+
+      <!-- Funzione per gestire la lista della spesa dinamicamente -->
+      <script>
+        document.getElementById('nuovo-alimento').addEventListener('keypress', function(event) 
+        {
+          if (event.key === 'Enter') 
+          {
+            aggiungiAlimento();
+          }
+        });
+
+        function rimuoviElemento(customCheckbox) 
+        {
+          if (customCheckbox.classList.contains('checked')) 
+          {
+            customCheckbox.parentElement.remove();
+          }
+        }
+
+        function toggleCheckbox(event) 
+        {
+          const customCheckbox = event.target;
+          customCheckbox.classList.toggle('checked');
+          customCheckbox.classList.toggle('unchecked');
+          const checkbox = customCheckbox.previousElementSibling;
+          checkbox.checked = !checkbox.checked;
+          rimuoviElemento(customCheckbox);
+        }
+
+        function aggiungiAlimento() 
+        {
+          const lista = document.getElementById('lista-spesa');
+          const nuovoAlimentoInput = document.getElementById('nuovo-alimento');
+          const nuovoAlimento = nuovoAlimentoInput.value.trim();
+
+          if (nuovoAlimento !== "") 
+          {
+              const li = document.createElement('li');
+              
+              const checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              checkbox.style.display = 'none';
+              
+              const customCheckbox = document.createElement('div');
+              customCheckbox.classList.add('custom-checkbox', 'unchecked');
+              customCheckbox.onclick = toggleCheckbox;
+              
+              li.appendChild(checkbox);
+              li.appendChild(customCheckbox);
+              li.appendChild(document.createTextNode(nuovoAlimento));
+              lista.appendChild(li);
+
+              nuovoAlimentoInput.value = '';
+          }
+        } 
+      </script>
+      <button id="home_ok_spesa-back" onclick="return show('home_ok','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - ricette) -->
+    <div id="home_ok_ricette" style="display:none">
+      <button id="home_ok_ricette-back" onclick="return show('home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Account -->
+    <div id="home_ok_user" style="display:none">
+      <button id="user-logout" onclick="return show('logo','accedi_registrati','home_ok_user','home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="user-home" onclick="return show('home_ok','home_ok_user','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="user-setting" onclick="return show('home_ok_setting','home_ok_user','home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Setting -->
+    <div id="home_ok_setting" style="display:none">
+      <button id="setting-demo1" onclick="return show('');"></button>
+      <div id="p5-buttons"></div> <!-- Contenitore per i pulsanti p5.js - Avvia Experience -->
+      <div id="p5-buttons3"></div> <!-- Contenitore per i pulsanti p5.js - Stop Experience -->
+      <button id="setting-home" onclick="return show('home_ok','home_ok_setting','home_ok_user','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_volcano_setting','home_volcano_user');"></button>
+      <button id="setting-user" onclick="return show('home_ok_user','home_ok_setting','home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+  </body>
+
+
+  
+
+  <!-- Stile CSS -->
+  <style>
+
+  /* Stile per la Web App in generale */
+  @font-face 
+  {
+  font-family: 'inter';
+  src: url('../ESP32-P5js_iOS/fonts/inter/Inter-Bold.ttf') format('truetype');
+  src: url('../ESP32-P5js_iOS/fonts/inter/Inter-Regular.ttf') format('truetype');
+  }
+
+  #body, html 
+  {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'inter', sans-serif; /* Usa il tuo font personalizzato come preferito, con un fallback a sans-serif */
+  }
+
+  input:focus
+  {
+    outline:none;
+    box-shadow: none;
+  }
+  
+  input[type="time"]:invalid 
+  {
+    color: gray;
+  }
+
+  a:link {
+  color: black;
+  background-color: transparent;
+}
+
+  /* Stile per la pagina Logo */
+  .clickable-background 
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_logo.png"); /* Sostituisci con l'immagine di sfondo che desideri */
+    background-size: cover;
+    background-position: center;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  /* Stile per la pagina Accedi e/o Registrati */
+  #accedi_registrati
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_accedi_registrati.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #accedi_registrati-accedi
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    margin-top: 292px;
+    margin-left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  #accedi_registrati-registrati
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    margin-top: 28px;
+    margin-left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina Accedi */
+  #accedi
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_accedi.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #form_accedi-username
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 190px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_accedi-pwd
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 250px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #accedi-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #accedi-accedi
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 372px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina Registrati */
+  #registrati
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_registrati.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #registrati-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #form_registrati-name
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 185px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-cognome
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 243px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-email
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 303px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-tel
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 363px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-pwd
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 423px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-pwd2
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 481px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #registrati-registrati
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 559px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina dell'Inizio della Configurazione */
+  #configurazione_inizio
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_configurazione_inizio.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_inizio-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #configurazione_inizio-inizia
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 707px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+   /* Stile per la pagina della Configurazione del Care Giver */
+   #configurazione_cg
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_configurazione_cg.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_cg-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_cg-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_cg-name
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 160px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cg-cognome
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 223px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cg-tel
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 283px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della Configurazione del Care Recipient */
+  #configurazione_cr
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_configurazione_cr.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_cr-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_cr-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_cr-name
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 160px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cr-cognome
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 223px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cr-tel
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 283px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della Configurazione dell'orario dei pasti */
+  #configurazione_time
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_configurazione_time.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_time-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_time-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_time-pranzo
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 360px;
+    left: 185px;
+    width: 92px;
+    height: 50px;
+    color: black;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  #form_configurazione_time-cena
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 427px;
+    left: 185px;
+    width: 92px;
+    height: 50px;
+    color: black;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della Configurazione del colore dei pasti */
+  #configurazione_colori
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_configurazione_colori.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_colori-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_colori-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_colori-pranzo
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 357px;
+    left: 182px;
+    width: 130px;
+    height: 65px;
+    color: red;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  #form_configurazione_colori-cena
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 424px;
+    left: 182px;
+    width: 130px;
+    height: 65px;
+    color: blue;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della conclusione della Configurazione */
+  #configurazione_completata
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_configurazione_completata.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_completata-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #configurazione_completata-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 707px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare */
+  #home_ok
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  .usernameDisplay
+  {
+    font-size:xx-large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 15px;
+  }
+
+  #home_ok-monossido
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 332px;
+    top: 24px;
+    width: 42px;
+    height: 42px;
+  }
+
+  #home_ok-cr
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 12px;
+    top: 147px;
+    width: 365px;
+    height: 208px;
+  }
+
+  #home_ok-pranzo
+  {
+    border: 1.5px solid white;
+    opacity: 0.70;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 65px;
+    top: 398px;
+    width: 120px;
+    height: 26px;
+  }
+
+  #home_ok-cena
+  {
+    border: 1.5px solid white;
+    opacity: 0.70;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 65px;
+    top: 441px;
+    width: 120px;
+    height: 26px;
+  }
+
+  #home_ok-statistiche
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 242px;
+    top: 366px;
+    width: 133px;
+    height: 130px;
+  }
+
+  #home_ok-manage
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 15px;
+    top: 514px;
+    width: 114px;
+    height: 205px;
+  }
+
+  #home_ok-spesa
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 138px;
+    top: 514px;
+    width: 114px;
+    height: 205px;
+  }
+
+  #home_ok-ricette
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 260px;
+    top: 514px;
+    width: 114px;
+    height: 205px;
+  }
+
+  #home_ok-user
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 18.5px;
+    position:absolute;
+    left: 179px;
+    top: 733px;
+    width: 37px;
+    height: 37px;
+  }
+
+  #home_ok-setting
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 18.5px;
+    position:absolute;
+    left: 301px;
+    top: 733px;
+    width: 37px;
+    height: 37px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (Monossido) */
+  #home_ok_monossido
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_monossido.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_monossido-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .usernameDisplayOpacity
+  {
+    font-size:xx-large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 15px;
+  }
+
+/* Stile per la pagina Home, tutto regolare (CR) */
+#home_ok_cr
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_cr.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_cr-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  #nome_cr
+  {
+    font-size:large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 60px;
+    top: 330px;
+  }
+
+  #cognome_cr
+  {
+    font-size:large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 60px;
+    top: 395px;
+  }
+
+  #cellulare_cr
+  {
+    font-size:large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 60px;
+    top: 460px;
+  }
+
+/* Stile per la pagina Home, tutto regolare (pranzo) */
+#home_ok_pranzo
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_pranzo.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_pranzo-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  #nome_cr_pranzo_ok
+  {
+    font-size:20pt;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    width: 250px;
+    height: 70px;
+    left: 35px;
+    top: 257px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (cena) */
+  #home_ok_cena
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_cena.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_cena-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (Statistiche) */
+  #home_ok_statistiche
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_statistiche.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_statistiche-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+/* Stile per la pagina Home, tutto regolare (Manage) */
+#home_ok_manage
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_manage.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_manage-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (Spesa) */
+#home_ok_spesa
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_spesa.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_spesa-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+    font-weight:bold;
+    font-size: large;
+    color: #353535;
+  }
+
+  .lista-spesa {
+            list-style-type: none;
+            padding: 0;
+            position: absolute;
+            left: 50px;
+            top: 170px;
+
+        }
+        .lista-spesa li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .lista-spesa li input[type="checkbox"] {
+            display: none; /* Nascondi il checkbox originale */
+        }
+        .custom-checkbox {
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .custom-checkbox.unchecked {
+            background-image: url("media_checkbox-unchecked.png"); /* Immagine del checkbox non spuntato */
+        }
+        .custom-checkbox.checked {
+            background-image: url("media_checkbox-checked.png"); /* Immagine del checkbox spuntato */
+        }
+
+        #nuovo-alimento
+        {
+          background-color: #f7d254;
+          border-color: transparent;
+          border-radius: 35px;
+          height: 40px;
+          width: 247px;
+          position: absolute;
+          top:100px;
+          left: 35px;
+          font-weight:bold;
+          font-size: large;
+          color: #353535;
+        }
+
+        #btn-addAlim
+        {
+          background-color: #f7d254;
+          border-color: transparent;
+          border-radius: 25.5px;
+          height: 51px;
+          width: 51px;
+          position: absolute;
+          top:100px;
+          left: 306px;
+          font-weight:bold;
+          font-size: large;
+          color: #353535;
+        }
+
+    /* Stile per la pagina Home, tutto regolare (Ricett) */
+#home_ok_ricette
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_ricette.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_ricette-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+    font-weight:bold;
+    font-size: large;
+    color: #353535;
+  }
+  
+  /* Stile per la pagina Account */
+#home_ok_user
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_user.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #user-logout
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 22px;
+    top: 209px;
+    width: 351px;
+    height: 24px;
+  }
+
+  #user-home
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 24px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  #user-setting
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 25px;
+    position:absolute;
+    left: 267px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  /* Stile per la pagina Setting */
+#home_ok_setting
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("media_home_ok_setting.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #setting-demo1
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 25px;
+    top: 621px;
+    width: 346px;
+    height: 20px;
+  }
+
+  #setting-demo2
+    {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 25px;
+    top: 666px;
+    width: 346px;
+    height: 20px;
+  }
+
+  #setting-home
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 24px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  #setting-user
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 25px;
+    position:absolute;
+    left: 148px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  /* Stile per i pulsanti p5.js */
+  .my-button
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 125px;
+    height: 30px;
+  }
+
+  .my-button2
+  {
+    background-color: green; /* Verde */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: black;
+    width: 346px;
+    height: 25px;
+  }
+
+  .my-button3
+  {
+    background-color: red; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: black;
+    width: 75px;
+    height: 30px;
+  }
+
+  .my-button4
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button5
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button6
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button7
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button8
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button9
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+  </style>
+
+  <!-- Qui inserisco i comandi da inviare -->
+  <script src="sketch.js"></script> 
+
+</html>
