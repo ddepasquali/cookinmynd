@@ -59,4 +59,4 @@ BSc in *Information and Communications Technologies*
 
 ## License
 
-This project is released under the [MIT License](LICENSE).
+This project is released under the [MIT License](https://mit-license.org).
