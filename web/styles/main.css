@@ -1,0 +1,1363 @@
+/* Stile per la Web App in generale */
+  @font-face 
+  {
+  font-family: 'inter';
+  src: url('../fonts/inter/Inter-Bold.ttf') format('truetype');
+  src: url('../fonts/inter/Inter-Regular.ttf') format('truetype');
+  }
+
+  #body, html 
+  {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'inter', sans-serif; /* Usa il tuo font personalizzato come preferito, con un fallback a sans-serif */
+  }
+
+  input:focus
+  {
+    outline:none;
+    box-shadow: none;
+  }
+  
+  input[type="time"]:invalid 
+  {
+    color: gray;
+  }
+
+  a:link {
+  color: black;
+  background-color: transparent;
+}
+
+  /* Stile per la pagina Logo */
+  .clickable-background 
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_logo.png"); /* Sostituisci con l'immagine di sfondo che desideri */
+    background-size: cover;
+    background-position: center;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  /* Stile per la pagina Accedi e/o Registrati */
+  #accedi_registrati
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_accedi_registrati.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #accedi_registrati-accedi
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    margin-top: 292px;
+    margin-left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  #accedi_registrati-registrati
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    margin-top: 28px;
+    margin-left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina Accedi */
+  #accedi
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_accedi.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #form_accedi-username
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 190px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_accedi-pwd
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 250px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #accedi-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #accedi-accedi
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 372px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina Registrati */
+  #registrati
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_registrati.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #registrati-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #form_registrati-name
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 185px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-cognome
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 243px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-email
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 303px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-tel
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 363px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-pwd
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 423px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #form_registrati-pwd2
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 481px;
+    left: 55px;
+    background-color: transparent;
+  }
+
+  #registrati-registrati
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 559px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina dell'Inizio della Configurazione */
+  #configurazione_inizio
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_configurazione_inizio.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_inizio-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #configurazione_inizio-inizia
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 707px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+   /* Stile per la pagina della Configurazione del Care Giver */
+   #configurazione_cg
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_configurazione_cg.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_cg-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_cg-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_cg-name
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 160px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cg-cognome
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 223px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cg-tel
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 283px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della Configurazione del Care Recipient */
+  #configurazione_cr
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_configurazione_cr.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_cr-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_cr-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_cr-name
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 160px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cr-cognome
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 223px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  #form_configurazione_cr-tel
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    top: 283px;
+    left: 32px;
+    width: 190px;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della Configurazione dell'orario dei pasti */
+  #configurazione_time
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_configurazione_time.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_time-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_time-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_time-pranzo
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 360px;
+    left: 185px;
+    width: 92px;
+    height: 50px;
+    color: black;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  #form_configurazione_time-cena
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 427px;
+    left: 185px;
+    width: 92px;
+    height: 50px;
+    color: black;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della Configurazione del colore dei pasti */
+  #configurazione_colori
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_configurazione_colori.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_colori-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 150px;
+    height: 30px;
+  }
+
+  #configurazione_colori-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 30px;
+    position:absolute;
+    top: 723px;
+    left: 308px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #form_configurazione_colori-pranzo
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 357px;
+    left: 182px;
+    width: 130px;
+    height: 65px;
+    color: red;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  #form_configurazione_colori-cena
+  {
+    border: none;
+    font-size: large;
+    position: absolute;
+    border-radius: 50px;
+    top: 424px;
+    left: 182px;
+    width: 130px;
+    height: 65px;
+    color: blue;
+    font-size: large;
+    background-color: transparent;
+  }
+
+  /* Stile per la pagina della conclusione della Configurazione */
+  #configurazione_completata
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_configurazione_completata.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #configurazione_completata-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  #configurazione_completata-avanti
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    top: 707px;
+    left: 27px;
+    width: 336px;
+    height: 51px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare */
+  #home_ok
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  .usernameDisplay
+  {
+    font-size:xx-large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 15px;
+  }
+
+  #home_ok-monossido
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 332px;
+    top: 24px;
+    width: 42px;
+    height: 42px;
+  }
+
+  #home_ok-cr
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 12px;
+    top: 147px;
+    width: 365px;
+    height: 208px;
+  }
+
+  #home_ok-pranzo
+  {
+    border: 1.5px solid white;
+    opacity: 0.70;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 65px;
+    top: 398px;
+    width: 120px;
+    height: 26px;
+  }
+
+  #home_ok-cena
+  {
+    border: 1.5px solid white;
+    opacity: 0.70;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 65px;
+    top: 441px;
+    width: 120px;
+    height: 26px;
+  }
+
+  #home_ok-statistiche
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 242px;
+    top: 366px;
+    width: 133px;
+    height: 130px;
+  }
+
+  #home_ok-manage
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 15px;
+    top: 514px;
+    width: 114px;
+    height: 205px;
+  }
+
+  #home_ok-spesa
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 138px;
+    top: 514px;
+    width: 114px;
+    height: 205px;
+  }
+
+  #home_ok-ricette
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 21px;
+    position:absolute;
+    left: 260px;
+    top: 514px;
+    width: 114px;
+    height: 205px;
+  }
+
+  #home_ok-user
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 18.5px;
+    position:absolute;
+    left: 179px;
+    top: 733px;
+    width: 37px;
+    height: 37px;
+  }
+
+  #home_ok-setting
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 18.5px;
+    position:absolute;
+    left: 301px;
+    top: 733px;
+    width: 37px;
+    height: 37px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (Monossido) */
+  #home_ok_monossido
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_monossido.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_monossido-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .usernameDisplayOpacity
+  {
+    font-size:xx-large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 15px;
+  }
+
+/* Stile per la pagina Home, tutto regolare (CR) */
+#home_ok_cr
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_cr.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_cr-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  #nome_cr
+  {
+    font-size:large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 60px;
+    top: 330px;
+  }
+
+  #cognome_cr
+  {
+    font-size:large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 60px;
+    top: 395px;
+  }
+
+  #cellulare_cr
+  {
+    font-size:large;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    left: 60px;
+    top: 460px;
+  }
+
+/* Stile per la pagina Home, tutto regolare (pranzo) */
+#home_ok_pranzo
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_pranzo.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_pranzo-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  #nome_cr_pranzo_ok
+  {
+    font-size:20pt;
+    font-weight: bold;
+    color: #353535;
+    position: absolute;
+    width: 250px;
+    height: 70px;
+    left: 35px;
+    top: 257px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (cena) */
+  #home_ok_cena
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_cena.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_cena-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 13px;
+    position:absolute;
+    left: 325px;
+    top: 287px;
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (Statistiche) */
+  #home_ok_statistiche
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_statistiche.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_statistiche-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+/* Stile per la pagina Home, tutto regolare (Manage) */
+#home_ok_manage
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_manage.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_manage-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+  }
+
+  /* Stile per la pagina Home, tutto regolare (Spesa) */
+#home_ok_spesa
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_spesa.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_spesa-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+    font-weight:bold;
+    font-size: large;
+    color: #353535;
+  }
+
+  .lista-spesa {
+            list-style-type: none;
+            padding: 0;
+            position: absolute;
+            left: 50px;
+            top: 170px;
+
+        }
+        .lista-spesa li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .lista-spesa li input[type="checkbox"] {
+            display: none; /* Nascondi il checkbox originale */
+        }
+        .custom-checkbox {
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .custom-checkbox.unchecked {
+            background-image: url("../images/media_checkbox-unchecked.png"); /* Immagine del checkbox non spuntato */
+        }
+        .custom-checkbox.checked {
+            background-image: url("../images/media_checkbox-checked.png"); /* Immagine del checkbox spuntato */
+        }
+
+        #nuovo-alimento
+        {
+          background-color: #f7d254;
+          border-color: transparent;
+          border-radius: 35px;
+          height: 40px;
+          width: 247px;
+          position: absolute;
+          top:100px;
+          left: 35px;
+          font-weight:bold;
+          font-size: large;
+          color: #353535;
+        }
+
+        #btn-addAlim
+        {
+          background-color: #f7d254;
+          border-color: transparent;
+          border-radius: 25.5px;
+          height: 51px;
+          width: 51px;
+          position: absolute;
+          top:100px;
+          left: 306px;
+          font-weight:bold;
+          font-size: large;
+          color: #353535;
+        }
+
+    /* Stile per la pagina Home, tutto regolare (Ricett) */
+#home_ok_ricette
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_ricette.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #home_ok_ricette-back
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 125px;
+    height: 30px;
+    font-weight:bold;
+    font-size: large;
+    color: #353535;
+  }
+  
+  /* Stile per la pagina Account */
+#home_ok_user
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_user.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #user-logout
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 22px;
+    top: 209px;
+    width: 351px;
+    height: 24px;
+  }
+
+  #user-home
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 24px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  #user-setting
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 25px;
+    position:absolute;
+    left: 267px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  /* Stile per la pagina Setting */
+#home_ok_setting
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/media_home_ok_setting.png");
+    background-size: cover;
+    display: block; /* Assicurati che l'elemento sia un blocco */
+    text-decoration: none; /* Rimuovi la sottolineatura */
+    color: inherit; /* Mantieni il colore del testo */
+  }
+
+  #setting-demo1
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 25px;
+    top: 621px;
+    width: 346px;
+    height: 20px;
+  }
+
+  #setting-demo2
+    {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 25px;
+    top: 666px;
+    width: 346px;
+    height: 20px;
+  }
+
+  #setting-home
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 50px;
+    position:absolute;
+    left: 24px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  #setting-user
+  {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 25px;
+    position:absolute;
+    left: 148px;
+    top: 726px;
+    width: 100px;
+    height: 50px;
+  }
+
+  /* Stile per i pulsanti p5.js */
+  .my-button
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 125px;
+    height: 30px;
+  }
+
+  .my-button2
+  {
+    background-color: green; /* Verde */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: black;
+    width: 346px;
+    height: 25px;
+  }
+
+  .my-button3
+  {
+    background-color: red; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: black;
+    width: 75px;
+    height: 30px;
+  }
+
+  .my-button4
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button5
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button6
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button7
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button8
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }
+
+  .my-button9
+  {
+    background-color: transparent; /* Verde */
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    position:absolute;
+  color: transparent;
+    width: 104px;
+    height: 51px;
+  }

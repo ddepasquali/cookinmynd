@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cookinmynd</title>
+    <meta author="Domenico De Pasquali">
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    <link rel="apple-touch-icon" href="../images/favicon.png">
+    <link rel="stylesheet" href="../styles/main.css">
+
+    <script src="../scripts/lib/p5.min.js"></script>
+    <script src="../scripts/lib/mqttws31.min.js"></script>
+  </head>
+
+  <!-- Inserisco tutte le parti della Web App -->
+  <body id="p5-container">
+
+    <!-- Splash Screen -->
+    <div id="logo" style="display:block" class="clickable-background" onclick="return show('accedi_registrati','logo','accedi', 'registrati', 'configurazione_inizio','configurazione_cg','configurazione_cr', 'configurazione_time', 'configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');">
+    </div>
+
+    <!-- Accedi e/o Registrati -->
+    <div id="accedi_registrati" style="display:none">
+      <button id="accedi_registrati-accedi" onclick="return show('accedi','accedi_registrati','logo','registrati', 'configurazione_inizio', 'configurazione_cg', 'configurazione_cr','configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="accedi_registrati-registrati" onclick="return show('registrati','accedi_registrati','logo','accedi', 'configurazione_inizio', 'configurazione_cg', 'configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Accedi -->
+    <div id="accedi" style="display:none">
+      <button id="accedi-back" onclick="return show('accedi_registrati','accedi','logo', 'registrati','configurazione_inizio','configurazione_cg','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_accedi">
+        <input type="text" placeholder="Username o Email" name="uname" required id="form_accedi-username">
+        <br>
+        <input type="password" placeholder="Password" name="psw" required id="form_accedi-pwd">
+        <button id="accedi-accedi" type="button" onclick="verificaForm()"></button>
+    </form>
+    </div>
+
+    <!-- Registrati -->
+    <div id="registrati" style="display:none">
+      <button id="registrati-back" onclick="return show('accedi_registrati','registrati','logo', 'accedi', 'configurazione_inizio', 'configurazione_cg','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata', 'home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_registrati">
+        <input type="text" placeholder="Nome" name="name" required id="form_registrati-name">
+        <br>
+        <input type="text" placeholder="Cognome" name="cognome" required id="form_registrati-cognome">
+        <br>
+        <input type="email" placeholder="Email" name="email" required id="form_registrati-email">
+        <br>
+        <input type="tel" placeholder="Cellulare" name="tel" required id="form_registrati-tel">
+        <br>
+        <input type="password" placeholder="Password" name="pwd" required id="form_registrati-pwd">
+        <br>
+        <input type="password" placeholder="Ripeti Password" name="psw2" required id="form_registrati-pwd2">
+        <button id="registrati-registrati" type="button"></button>
+      </form>
+    </div>
+
+    <!-- Inizio della configurazione -->
+    <div id="configurazione_inizio" style="display:none">
+      <button id="configurazione_inizio-back" onclick="return show('registrati','configurazione_inizio','accedi','accedi_registrati','logo', 'configurazione_cg','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="configurazione_inizio-inizia" onclick="return show('configurazione_cg','configurazione_inizio','registrati','accedi_registrati','logo','accedi','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Configurazione del profilo del care giver -->
+    <div id="configurazione_cg" style="display:none">
+      <button id="configurazione_cg-back" onclick="return show('configurazione_inizio','configurazione_cg','registrati','accedi','accedi_registrati','logo','configurazione_cr', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_configurazione_cg">
+        <input type="text" placeholder="Nome" name="name" required id="form_configurazione_cg-name">
+        <br>
+        <input type="text" placeholder="Cognome" name="cognome" required id="form_configurazione_cg-cognome">
+        <br>
+        <input type="tel" placeholder="Cellulare" name="tel" required id="form_configurazione_cg-tel">
+        <button id="configurazione_cg-avanti" type="button"></button>
+      </form>
+    </div>
+
+    <!-- Configurazione del profilo del care recipient -->
+    <div id="configurazione_cr" style="display:none">
+      <button id="configurazione_cr-back" onclick="return show('configurazione_cg', 'configurazione_cr','configurazione_inzio','registrati','accedi','accedi_registrati','logo', 'configurazione_time','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_configurazione_cr">
+        <input type="text" placeholder="Nome" name="name" required id="form_configurazione_cr-name">
+        <br>
+        <input type="text" placeholder="Cognome" name="cognome" required id="form_configurazione_cr-cognome">
+        <br>
+        <input type="tel" placeholder="Cellulare" name="tel" required id="form_configurazione_cr-tel">
+        <button id="configurazione_cr-avanti" type="button"></button>
+      </form>
+    </div>
+
+    <!-- Configurazione dell'orario dei pasti -->
+    <div id="configurazione_time" style="display:none">
+      <button id="configurazione_time-back" onclick="return show('configurazione_cr', 'configurazione_time', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','configurazione_colori','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <form id="form_configurazione_time">
+        <input type="time" value="12:00" min="10:00" max="15:00" name="time_pranzo" required id="form_configurazione_time-pranzo">
+        <br>
+        <input type="time" value="19:00" min="17:00" max="22:00" name="time_cena" required id="form_configurazione_time-cena">
+        <button id="configurazione_time-avanti" type="button"></button>
+      </form>
+    </div>
+
+    <!-- Configurazione del colore dei pasti -->
+    <div id="configurazione_colori" style="display:none">
+      <button id="configurazione_colori-back" onclick="return show('configurazione_time', 'configurazione_colori', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','configurazione_completata','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="configurazione_colori-avanti" onclick="return show('configurazione_completata','configurazione_time', 'configurazione_colori', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+
+
+      <div id="p5-buttons2"></div> <!-- Contenitore per i pulsanti p5.js - Anteprima (debug) -->
+      <div id="p5-buttons4"></div> <!-- Contenitore per i pulsanti p5.js - Colore 1 -->
+      <div id="p5-buttons5"></div> <!-- Contenitore per i pulsanti p5.js - Colore 2-->
+      <div id="p5-buttons6"></div> <!-- Contenitore per i pulsanti p5.js - Colore 3 -->
+      <div id="p5-buttons7"></div> <!-- Contenitore per i pulsanti p5.js - Colore 4 -->
+      <div id="p5-buttons8"></div> <!-- Contenitore per i pulsanti p5.js - Colore 5 -->
+      <div id="p5-buttons9"></div> <!-- Contenitore per i pulsanti p5.js - Colore 6 -->
+    </div>
+
+    <!-- Configurazione completata -->
+    <div id="configurazione_completata" style="display:none">
+      <button id="configurazione_completata-back" onclick="return show('configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="configurazione_completata-avanti" onclick="return show('home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare) -->
+    <div id="home_ok" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <button id="home_ok-monossido" onclick="return show('home_ok_monossido','home_ok','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-cr" onclick="return show('home_ok_cr','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-pranzo" onclick="return show('home_ok_pranzo','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-cena" onclick="return show('home_ok_cena','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-statistiche" onclick="return show('home_ok_statistiche','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-manage" onclick="return show('home_ok_manage','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-spesa" onclick="return show('home_ok_spesa','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-ricette" onclick="return show('home_ok_ricette','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-user" onclick="return show('home_ok_user','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="home_ok-setting" onclick="return show('home_ok_setting','home_ok','configurazione_completata', 'configurazione_colori','configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_monossido','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - monossido) -->
+    <div id="home_ok_monossido" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <button id="home_ok_monossido-back" onclick="return show('home_ok','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_cr','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - care recipient) -->
+    <div id="home_ok_cr" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <p id="nome_cr"></p>
+      <p id="cognome_cr"></p>
+      <p id="cellulare_cr"> <a href="#" id="cellulare_cr_link"></a> </p>
+      <button id="home_ok_cr-back" onclick="return show('home_ok','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_pranzo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - pranzo) -->
+    <div id="home_ok_pranzo" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <p id="nome_cr_pranzo_ok"></p>
+      <button id="home_ok_pranzo-back" onclick="return show('home_ok','home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_cena','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - cena) -->
+    <div id="home_ok_cena" style="display:none">
+      <p class="usernameDisplay">Home</p>
+      <button id="home_ok_cena-back" onclick="return show('home_ok','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_statistiche','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - statistiche) -->
+    <div id="home_ok_statistiche" style="display:none">
+      <button id="home_ok_statistiche-back" onclick="return show('home_ok','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_manage','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - manage) -->
+    <div id="home_ok_manage" style="display:none">
+      <button id="home_ok_manage-back" onclick="return show('home_ok','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_spesa','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - spesa) -->
+    <div id="home_ok_spesa" style="display:none">
+      <div>
+        <input type="text" id="nuovo-alimento" placeholder="Inserisci un alimento">
+        <button id="btn-addAlim" onclick="aggiungiAlimento()">+</button>
+      </div>
+  
+      <!-- Gli elementi della lista vengono aggiunti qui dinamicamente -->
+      <ul class="lista-spesa" id="lista-spesa">
+      </ul>
+      <button id="home_ok_spesa-back" onclick="return show('home_ok','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_ricette','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Home (tutto regolare - ricette) -->
+    <div id="home_ok_ricette" style="display:none">
+      <button id="home_ok_ricette-back" onclick="return show('home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_user','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Account -->
+    <div id="home_ok_user" style="display:none">
+      <button id="user-logout" onclick="return show('logo','accedi_registrati','home_ok_user','home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="user-home" onclick="return show('home_ok','home_ok_user','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_ok_setting','home_volcano_setting','home_volcano_user');"></button>
+      <button id="user-setting" onclick="return show('home_ok_setting','home_ok_user','home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+
+    <!-- Setting -->
+    <div id="home_ok_setting" style="display:none">
+      <button id="setting-demo1" onclick="return show('');"></button>
+      <div id="p5-buttons"></div> <!-- Contenitore per i pulsanti p5.js - Avvia Experience -->
+      <div id="p5-buttons3"></div> <!-- Contenitore per i pulsanti p5.js - Stop Experience -->
+      <button id="setting-home" onclick="return show('home_ok','home_ok_setting','home_ok_user','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_volcano_setting','home_volcano_user');"></button>
+      <button id="setting-user" onclick="return show('home_ok_user','home_ok_setting','home_ok','home_ok_ricette','home_ok_spesa','home_ok_manage','home_ok_statistiche','home_ok_cena' ,'home_ok_pranzo','home_ok_cr','home_ok_monossido','configurazione_colori','configurazione_completata', 'configurazione_time', 'configurazione_cr', 'configurazione_cg','configurazione_inzio','registrati','accedi','accedi_registrati','logo','home_volcano_setting','home_volcano_user');"></button>
+    </div>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/sketch.js"></script>
+  </body>
+</html>

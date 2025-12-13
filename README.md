@@ -6,42 +6,49 @@ This system was developed using a User-Centered Design (UCD) approach, and inclu
 
 ## Repository Structure
 
-The repository is divided into two main components:
+- `web/`: single-page web app meant for iOS fullscreen use, served locally.  
+  Uses `index.html` with background-image screens, UI logic in `scripts/app.js`, styling in `styles/main.css`, MQTT bridge in `scripts/sketch.js` (p5.js + Paho), assets in `images/`, custom fonts in `fonts/`, vendor libs in `scripts/lib/`.
+- `firmware/`: Arduino sketch that connects the ESP32 to Wi‑Fi + MQTT, drives the NeoPixel strip, and handles the physical button for meal confirmation. DS3231 RTC is included but not used in the current logic.
 
-### 1. `iOS code/`  
-This folder contains the web-based frontend, designed to be used on iOS devices in full-screen mode via a local server.
+## Versions
 
-- `start_1.html`: A single-page HTML interface that dynamically switches between views using JavaScript. All screens are rendered as background images to simulate the native app experience.
-- `sketch.js`: Manages the MQTT communication with the ESP32 and handles the creation of dynamic UI elements using the p5.js library.
-- `p5.min.js` and `mqttws31.min.js`: Libraries used for UI rendering and MQTT over WebSocket.
+- `v0.1.0` — first prototype: single HTML with inline JS/CSS, MQTT bridge, and UI logic embedded. Tested and working (as per original implementation).
+- `v0.2.0-internal` — current refactor: codebase reorganized (HTML in `web/html/`, JS split into `scripts/`, CSS in `styles/`, vendor libs under `scripts/lib/`), same functionality. Internal-only, not yet tested end-to-end.
 
-The web app is intended to be served locally using a Python HTTP server on macOS.
+## How It Works
 
-### 2. `ESP32 code/`  
-This folder contains the Arduino code for the ESP32 microcontroller. The firmware manages:
+- The caregiver configures profiles, meal times, and color codes in the web app (data is kept in `localStorage`; no backend).
+- The web app publishes MQTT messages on `esp32/control` (over WebSocket, default port 9001) to trigger LED patterns or color previews.
+- The ESP32 listens on the same topic (MQTT TCP, port 1883 by default) and runs the matching light sequence. A hardware button on GPIO 4 advances the acknowledgement flow on the strip.
 
-- Connection to a local MQTT broker (hosted on the Mac)
-- Communication with the LED strip (Adafruit NeoPixel)
-- Processing of MQTT messages from the iOS app
-- Handling physical inputs from a button on the board
-- Support for real-time feedback and potential future integration with sensors (e.g., gas or smoke detectors)
+### MQTT payloads on `esp32/control`
 
-## System Overview
+- `ON`: runs the guided white-light sequence.
+- `OFF`: clears all LEDs.
+- `color1` … `color6`: lights the whole strip with predefined colors for 5 seconds, then turns off (useful for selecting meal colors).
 
-- The user configures the application by setting caregiver and patient profiles, preferred mealtimes, and corresponding color codes.
-- When it's time to eat, the ESP32 board receives an MQTT message and triggers the appropriate LED signal.
-- The patient confirms meal completion via a physical button, changing the board state.
-- All views in the web app are managed from a single HTML file, using JavaScript to toggle visibility without reloading pages. This approach avoids issues with fullscreen web apps on iOS opening links in new tabs.
+## Quick Start
 
-## Technologies
+1. Configure endpoints  
+   - Copy `config/.env.example` to `config/.env` and fill in broker/SSID if desired (left blank by default).  
+   - In `web/sketch.js` set the MQTT broker host (WebSocket port 9001).  
+   - In `firmware/ESP32-MQTT.ino` set `ssid`, `password`, and `mqtt_server` (TCP port 1883).
+2. Start an MQTT broker reachable on both ports (e.g., Mosquitto with TCP 1883 + WebSocket 9001).
+3. Serve the web app  
+   ```bash
+   cd web
+   python3 -m http.server 8000
+   ```  
+   Open `http://<host>:8000` on the iOS device and add it to the home screen for fullscreen use.
+4. Flash the ESP32 firmware  
+   - Open `firmware/ESP32-MQTT.ino` in the Arduino IDE (or PlatformIO).  
+   - NeoPixel strip on pin 18, 250 LEDs (`EL1`), button on GPIO 4 with pull-up.  
+   - Upload and monitor via serial at 115200 baud.
 
-- HTML / CSS / JavaScript (frontend)
-- p5.js for interactive UI
-- MQTT over WebSocket (Paho client for JavaScript; PubSubClient for ESP32)
-- ESP32 (Arduino framework)
-- Adafruit NeoPixel LED control
-- Optional DS3231 RTC module
-- Local HTTP server in Python for serving the web app
+## Data and persistence
+
+- Current state: all user inputs and configuration stay in the browser via `localStorage` (no server/database). MQTT messages are ephemeral.
+- Future direction (suggested): add a lightweight backend that exposes REST/GraphQL for profiles and schedules, paired with the existing MQTT broker. A minimal stack could be Node.js + SQLite/Postgres (or a hosted service like Supabase) to persist caregiver/patient profiles, meal schedules, and LED color mappings; the backend can also publish MQTT commands when the schedule triggers.
 
 ## Project Context
 
