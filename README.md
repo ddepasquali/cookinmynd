@@ -12,8 +12,8 @@ This system was developed using a User-Centered Design (UCD) approach, and inclu
 
 ## Versions
 
-- `v0.1.0` — first prototype: single HTML with inline JS/CSS, MQTT bridge, and UI logic embedded. Tested and working (as per original implementation).
-- `v0.2.0-internal` — current refactor: codebase reorganized (HTML in `web/html/`, JS split into `scripts/`, CSS in `styles/`, vendor libs under `scripts/lib/`), same functionality. Internal-only, not yet tested end-to-end.
+- `v1.0.0` — first prototype: single HTML with inline JS/CSS, MQTT bridge, and UI logic embedded. Tested and working (as per original implementation).
+- `v2.0.0-internal` — current refactor: codebase reorganized (HTML in `web/html/`, JS split into `scripts/`, CSS in `styles/`, vendor libs under `scripts/lib/`), same functionality. Internal-only, not yet tested end-to-end.
 
 ## How It Works
 
